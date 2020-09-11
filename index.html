@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<title>Covid App</title>
+</head>
+<body>
+	<div class="container">
+		<div id="app" class="row">
+		  <div class="col-md-8 col-md-offset-2">
+			<input id="input-search" type="text" class="form-control" v-model="textSearch" placeholder='Search...'>
+			<div id="list-infoInfected" v-if="infectedFilter && infectedFilter.length">
+			  <div class="panel panel-default" v-for="infected of infectedFilter">
+				<div class="panel-heading">
+				  <span>{{infected.id_del_caso}}</span>
+				</div>
+				<div class="panel-body">
+				  <div class="row">
+					<div class="col-md-6">Fecha de notificación: <strong>{{infected.fecha_de_notificaci_n}}</strong></div>
+					<div class="col-md-6">Ciudad de ubicación: <strong>{{infected.ciudad_de_ubicaci_n}}</strong></div>
+					<div class="col-md-6">Código divipola: <strong>{{infected.c_digo_divipola}}</strong></div>
+					<div class="col-md-6">Departamento: <strong>{{infected.departamento}}</strong></div>
+					<div class="col-md-6">Atención: <strong>{{infected.atenci_n}}</strong></div>
+					<div class="col-md-6">Edad: <strong>{{infected.edad}}</strong></div>
+					<div class="col-md-6">Sexo: <strong>{{infected.sexo}}</strong></div>
+					<div class="col-md-6">Tipo: <strong>{{infected.tipo}}</strong></div>
+					<div class="col-md-6">Estado: <strong>{{infected.estado}}</strong></div>
+					<div class="col-md-6">País de procedencia: <strong>{{infected.pa_s_de_procedencia}}</strong></div>
+					<div class="col-md-6">Fis: <strong>{{infected.fis"}}</strong></div>
+					<div class="col-md-6">Fecha diagnóstico: <strong>{{infected.fecha_diagnostico}}</strong></div>
+					<div class="col-md-6">Fecha reporte web: <strong>{{infected.fecha_reporte_web"}}</strong></div>
+					<div class="col-md-6">Tipo recuperación: <strong>{{infected.tipo_recuperaci_n}}</strong></div>
+					<div class="col-md-6">Código departamento: <strong>{{infected.codigo_departamento"}}</strong></div>
+					<div class="col-md-6">Código País: <strong>{{infected.codigo_pais}}</strong></div>
+					<div class="col-md-6">Pertenencia étnica: <strong>{{infected.pertenencia_etnica"}}</strong></div>		
+				  </div> 
+				</div>
+			  </div>
+			</div>
+			<div class="text-center" v-else>
+			  Sorry, Not results!
+			</div>
+		  </div>
+		</div>  
+	  </div>
+	<!--<div id="aplication">
+		<h1>Covid App</h1>
+		<div v-for="item in info" :key="item.id">
+			{{ item }}
+		</div>
+	</div>-->
+	<script type="text/javascript">
+		new Vue({
+			el:"#aplication",
+			data:{ 
+				textSearch: "",
+				infoInfected:[]
+			},
+			/*mounted(){
+				axios.get("https://www.datos.gov.co/resource/gt2j-8ykr.json").then(response => this.info = response.data);*/
+				computed: {
+				infectedFilter: function() {
+				var textSearch = this.textSearch;
+				return this.infoInfected.filter(function(el) {
+					return el.id_de_caso;
+				});
+			   }
+			},
+			created: function() {
+			var that = this;
+			axios.get('https://www.datos.gov.co/resource/gt2j-8ykr.json')
+			.then(function (response) {
+			that.infoInfected = response.data;
+			})
+			.catch(function (error) {
+				console.log(error);
+				});
+			},
+			mounted: function() {
+				$.scrollUp();
+			}
+		})
+	</script>
+</body>
+</html>
